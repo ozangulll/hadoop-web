@@ -21,7 +21,7 @@ import java.nio.file.Paths;
 @Controller
 public class EmployeeController {
 
-    private static String UPLOAD_DIR = "uploads/";
+    private static String UPLOAD_DIR = "src/main/resources/static/";
 
     @Autowired
     private EmployeeRepository employeeRepository;
