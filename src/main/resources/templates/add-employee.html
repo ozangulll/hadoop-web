@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Employee</title>
+</head>
+<body>
+<h2>Add Employee</h2>
+<form th:action="@{/add-employee}" th:object="${employee}" method="post" enctype="multipart/form-data">
+    <div>
+        <label th:for="id">ID:</label>
+        <input type="text" th:field="*{id}" required />
+    </div>
+    <div>
+        <label th:for="ename">Employee Name:</label>
+        <input type="text" th:field="*{ename}" required />
+    </div>
+    <div>
+        <label th:for="job">Job:</label>
+        <input type="text" th:field="*{job}" required />
+    </div>
+    <div>
+        <label th:for="mgr">Manager ID:</label>
+        <input type="text" th:field="*{mgr}" />
+    </div>
+    <div>
+        <label th:for="hireDate">Hire Date:</label>
+        <input type="text" th:field="*{hireDate}" placeholder="DD MMM YYYY" required />
+    </div>
+    <div>
+        <label th:for="sal">Salary:</label>
+        <input type="number" th:field="*{sal}" required />
+    </div>
+    <div>
+        <label th:for="comm">Commission:</label>
+        <input type="text" th:field="*{comm}" />
+    </div>
+    <div>
+        <label th:for="department.id">Department ID:</label>
+        <input type="text" th:field="*{department.id}" />
+    </div>
+    <div>
+        <label th:for="imagePath">Image Path:</label>
+        <input type="file" name="photo" />
+    </div>
+    <div>
+        <button type="submit">Add Employee</button>
+    </div>
+</form>
+
+<!-- JavaScript for date validation -->
+<script>
+    document.querySelector('form').onsubmit = function(event) {
+        const hireDateInput = document.querySelector('input[name="hireDate"]');
+        const hireDateValue = hireDateInput.value;
+        const datePattern = /^\d{2} [A-Z]{3} \d{4}$/; // Matches "04 MAY 2023"
+
+        if (!datePattern.test(hireDateValue)) {
+            alert("Please enter the date in the format: DD MMM YYYY (e.g., 04 MAY 2023)");
+            event.preventDefault(); // Prevent form submission
+        }
+    };
+</script>
+
+</body>
+</html>
