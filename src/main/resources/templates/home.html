@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+</head>
+<body>
+<h1>Departments</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Department No</th>
+        <th>Department Name</th>
+        <th>Location</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="department : ${departments}">
+        <td th:text="${department.id}"></td>
+        <td th:text="${department.dName}"></td>
+        <td th:text="${department.loc}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h1>Employees</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Employee No</th>
+        <th>Name</th>
+        <th>Job</th>
+        <th>Manager</th>
+        <th>Hire Date</th>
+        <th>Salary</th>
+        <th>Commission</th>
+        <th>Department</th>
+        <th>Image</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${employees}">
+        <td th:text="${employee.id}"></td>
+        <td th:text="${employee.ename}"></td>
+        <td th:text="${employee.job}"></td>
+        <td th:text="${employee.mgr}"></td>
+        <td th:text="${#dates.format(employee.hireDate, 'dd-MM-yyyy')}"></td>
+        <td th:text="${employee.sal}"></td>
+        <td th:text="${employee.comm}"></td>
+        <td th:text="${employee.department.dName}"></td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
