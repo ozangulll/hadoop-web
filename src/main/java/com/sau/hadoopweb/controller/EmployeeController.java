@@ -2,6 +2,11 @@ package com.sau.hadoopweb.controller;
 
 import com.sau.hadoopweb.model.Employee;
 import com.sau.hadoopweb.repository.EmployeeRepository;
+import org.apache.commons.io.IOUtils;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,18 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.hadoop.fs.Path;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
+
 import java.nio.file.Paths;
 
 @Controller
 public class EmployeeController {
 
-    private static String UPLOAD_DIR = "src/main/resources/static/";
+    private static String UPLOAD_DIR = "/user/ozangul/images/";
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -36,23 +43,22 @@ public class EmployeeController {
     public String addEmployee(@ModelAttribute Employee employee,
                               @RequestParam("photo") MultipartFile file,
                               RedirectAttributes redirectAttributes) {
-        // Handle the image upload
-        if (file != null && !file.isEmpty()) {
-            String fileName = file.getOriginalFilename();
-            Path path = Paths.get(UPLOAD_DIR + fileName);
-            try {
-                Files.createDirectories(path.getParent()); // Create directories if they don't exist
-                file.transferTo(path);
-                employee.setImagePath(path.toString()); // Store the file path in the Employee entity
-            } catch (IOException e) {
-                e.printStackTrace();
-                redirectAttributes.addFlashAttribute("message", "Failed to upload photo.");
-                return "redirect:/add-employee";
-            }
+        String fileName = file.getOriginalFilename();
+        employee.setImagePath(fileName);
+        Configuration conf = new Configuration();
+        conf.set("fs.defaultFS", "hdfs://localhost:9000/");
+        conf.set("hadoop.security.authentication", "simple");
+        try {
+            FileSystem fileSystem = FileSystem.get(conf);
+            Path hdfsWritePath = new Path(UPLOAD_DIR + fileName);
+            FSDataOutputStream fsDataOutputStream = fileSystem.create(hdfsWritePath, true);
+            InputStream inputStream = file.getInputStream();
+            IOUtils.copy(inputStream, fsDataOutputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         employeeRepository.save(employee);
-        redirectAttributes.addFlashAttribute("message", "Employee added successfully.");
-        return "redirect:/employees"; // Redirect to employee list after saving
+        return "redirect:/home";
     }
 }
