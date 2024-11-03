@@ -47,7 +47,7 @@
         <td th:text="${employee.sal}"></td>
         <td th:text="${employee.comm}"></td>
         <td th:text="${employee.department.dName}"></td>
-        <td><img th:src="'http://127.0.0.1:9870/user/ozangul/images/' + ${employee.imagePath}" /></td>
+        <td><img style="width: 1.5cm" th:src="@{'http://localhost:9870/webhdfs/v1/user/ozangul/images/' + ${employee.imagePath} +'?op=OPEN'}" /></td>
     </tr>
     </tbody>
 </table>
