@@ -2,15 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #343a40;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .button {
+            padding: 10px 15px;
+            color: white;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 5px;
+        }
+        .button-danger {
+            background-color: #dc3545;
+        }
+        .message {
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
 <h1>Departments</h1>
-<table border="1">
+<table>
     <thead>
     <tr>
         <th>Department No</th>
         <th>Department Name</th>
         <th>Location</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -18,12 +63,17 @@
         <td th:text="${department.id}"></td>
         <td th:text="${department.dName}"></td>
         <td th:text="${department.loc}"></td>
+        <td>
+            <a th:href="@{/departments/edit-department/{id}(id=${department.id})}" class="button">Edit</a>
+            <a th:href="@{/departments/delete-department/{id}(id=${department.id})}" class="button button-danger">Delete</a>
+        </td>
     </tr>
     </tbody>
 </table>
 
 <h1>Employees</h1>
-<table border="1">
+<div class="message" th:if="${message}" th:text="${message}"></div>
+<table>
     <thead>
     <tr>
         <th>Employee No</th>
@@ -32,9 +82,8 @@
         <th>Manager</th>
         <th>Hire Date</th>
         <th>Salary</th>
-        <th>Commission</th>
         <th>Department</th>
-        <th>Image</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -45,11 +94,17 @@
         <td th:text="${employee.mgr}"></td>
         <td th:text="${#dates.format(employee.hireDate, 'dd-MM-yyyy')}"></td>
         <td th:text="${employee.sal}"></td>
-        <td th:text="${employee.comm}"></td>
         <td th:text="${employee.department.dName}"></td>
-        <td><img style="width: 1.5cm" th:src="@{'http://localhost:9870/webhdfs/v1/user/ozangul/images/' + ${employee.imagePath} +'?op=OPEN'}" /></td>
+        <td><img style="width: 1.5cm" th:src="@{'http://localhost:9870/webhdfs/v1/user/bekir/images/' + ${employee.imagePath} +'?op=OPEN'}" /></td>
+        <td>
+            <a th:href="@{/employees/edit/{id}(id=${employee.id})}" class="button">Edit</a>
+            <a th:href="@{/employees/delete/{id}(id=${employee.id})}" class="button button-danger">Delete</a>
+        </td>
     </tr>
     </tbody>
 </table>
+<div class="button-container">
+    <a th:href="@{/employees/add-employee}" class="button">Add Employee</a>
+</div>
 </body>
 </html>

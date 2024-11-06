@@ -52,4 +52,8 @@ public class Employee {
     public Employee() {
         // Default constructor
     }
+
+    public String getName() {
+        return "";
+    }
 }

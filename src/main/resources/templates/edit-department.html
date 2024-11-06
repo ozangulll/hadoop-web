@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Department</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h2 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            color: white;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .employee-list {
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .employee-list h3 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .employee-item {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .employee-item:last-child {
+            border-bottom: none;
+        }
+        .employee-details {
+            margin-left: 10px;
+        }
+        .employee-name {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h2>Edit Department</h2>
+<form th:action="@{/departments/update-department}" th:object="${department}" method="post">
+    <div>
+        <label th:for="id">Department ID:</label>
+        <input type="text" th:field="*{id}" required />
+    </div>
+    <div>
+        <label th:for="dName">Department Name:</label>
+        <input type="text" th:field="*{dName}" required />
+    </div>
+    <div>
+        <label th:for="loc">Location:</label>
+        <input type="text" th:field="*{loc}" required />
+    </div>
+    <div>
+        <button type="submit">Update Department</button>
+    </div>
+</form>
+
+<!-- Employees in this Department -->
+<div class="employee-list" th:if="${department.employees}">
+    <h3>Employees in this Department</h3>
+    <div th:each="employee : ${department.employees}" class="employee-item">
+        <span class="employee-name" th:text="${employee.ename}"></span>
+        <div class="employee-details">
+            <p th:text="'Job: ' + ${employee.job}"></p>
+            <p th:text="'Hire Date: ' + ${#dates.format(employee.hireDate, 'dd-MM-yyyy')}"></p>
+            <p th:text="'Salary: $' + ${employee.sal}"></p>
+            <p th:text="'Commission: ' + ${employee.comm} + '%'"></p>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.querySelector('form').onsubmit = function(event) {
+        const hireDateInput = document.querySelector('input[name="hireDate"]');
+        const hireDateValue = hireDateInput.value;
+        const datePattern = /^\d{2} [A-Z]{3} \d{4}$/; // Matches "04 MAY 2023"
+
+        if (!datePattern.test(hireDateValue)) {
+            alert("Please enter the date in the format: DD MMM YYYY (e.g., 04 MAY 2023)");
+            event.preventDefault(); // Prevent form submission
+        }
+    };
+</script>
+</body>
+</html>

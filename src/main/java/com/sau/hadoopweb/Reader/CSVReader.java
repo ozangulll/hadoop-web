@@ -19,9 +19,9 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.Locale;
+
 @Service
 public class CSVReader {
 
@@ -31,15 +31,12 @@ public class CSVReader {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-
-
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-
 
     @Transactional
     public void readAndInsertEmployees(String employeeCsvFilePath, String departmentCsvFilePath) throws IOException, ParseException {
         loadDepartmentsFromCSV(departmentCsvFilePath);
-        loadEmployeesFromCSV(employeeCsvFilePath);
+        updateEmployeesFromCSV(employeeCsvFilePath);
     }
 
     private void loadDepartmentsFromCSV(String filePath) throws IOException {
@@ -57,8 +54,7 @@ public class CSVReader {
         }
     }
 
-
-    private void loadEmployeesFromCSV(String filePath) throws IOException, ParseException {
+    private void updateEmployeesFromCSV(String filePath) throws IOException, ParseException {
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath));
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withHeader())) {
 
@@ -82,14 +78,37 @@ public class CSVReader {
                 }
                 Department department = optionalDepartment.get();
 
-                // Create and save the Employee object
+                // Create or update the Employee object
                 Employee employee = new Employee(empNo, ename, job, mgr, hireDate, sal, comm, department, imagePath);
-                employeeRepository.save(employee);
+                editEmployee(employee); // Update the employee
             }
         }
     }
 
+    public void editEmployee(Employee updatedEmployee) {
+        Optional<Employee> existingEmployeeOpt = employeeRepository.findById((long) updatedEmployee.getId());
+        if (existingEmployeeOpt.isPresent()) {
+            Employee existingEmployee = existingEmployeeOpt.get();
+            existingEmployee.setEname(updatedEmployee.getName());
+            existingEmployee.setJob(updatedEmployee.getJob());
+            existingEmployee.setMgr(updatedEmployee.getMgr());
+            existingEmployee.setHireDate(updatedEmployee.getHireDate());
+            existingEmployee.setSal(updatedEmployee.getSal());
+            existingEmployee.setComm(updatedEmployee.getComm());
+            existingEmployee.setDepartment(updatedEmployee.getDepartment());
+            existingEmployee.setImagePath(updatedEmployee.getImagePath());
+            employeeRepository.save(existingEmployee);
+        } else {
+            System.out.println("Employee with ID " + updatedEmployee.getId() + " not found.");
+        }
+    }
 
-
-
+    public void deleteEmployee(Long employeeId) {
+        Optional<Employee> existingEmployeeOpt = employeeRepository.findById(employeeId);
+        if (existingEmployeeOpt.isPresent()) {
+            employeeRepository.delete(existingEmployeeOpt.get());
+        } else {
+            System.out.println("Employee with ID " + employeeId + " not found.");
+        }
+    }
 }

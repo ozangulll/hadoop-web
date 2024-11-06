@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Employee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #343a40;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="number"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<h1>Edit Employee</h1>
+<form th:action="@{/employees/update}" th:object="${employee}" method="post">
+    <div class="form-group">
+        <label for="id">Employee No</label>
+        <input type="text" id="id" th:field="*{id}" readonly />
+    </div>
+    <div class="form-group">
+        <label for="ename">Name</label>
+        <input type="text" id="ename" th:field="*{ename}" required />
+    </div>
+    <div class="form-group">
+        <label for="job">Job</label>
+        <input type="text" id="job" th:field="*{job}" required />
+    </div>
+    <div class="form-group">
+        <label for="mgr">Manager</label>
+        <input type="number" id="mgr" th:field="*{mgr}" />
+    </div>
+    <div class="form-group" >
+        <label th:for="hireDate">Hire Date:</label>
+        <input type="text" th:field="*{hireDate}" placeholder="DD MMM YYYY" required />
+    </div>
+    <div class="form-group">
+        <label for="sal">Salary</label>
+        <input type="number" id="sal" th:field="*{sal}" required />
+    </div>
+    <div class="form-group">
+        <label for="comm">Commission</label>
+        <input type="number" id="comm" th:field="*{comm}" />
+    </div>
+    <div class="form-group">
+        <label for="department">Department</label>
+        <select id="department" th:field="*{department.id}" required>
+            <option th:each="dept : ${departments}"
+                    th:value="${dept.id}"
+                    th:text="${dept.dName}"
+                    th:selected="${dept.id == employee.department.id}"></option>
+        </select>
+    </div>
+    <button type="submit">Update Employee</button>
+</form>
+<a href="/home">Back to Home</a>
+</body>
+</html>
