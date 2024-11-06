@@ -1,85 +1,168 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Edit Employee</title>
+    <meta charset="UTF-8">
+    <title>Add Employee</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
-            background-color: #f8f9fa;
         }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
         h1 {
-            color: #343a40;
+            text-align: center;
+            color: #333;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         label {
             display: block;
+            font-weight: bold;
             margin-bottom: 5px;
         }
-        input[type="text"], input[type="number"], input[type="date"] {
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select,
+        input[type="file"] {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
-        button {
-            padding: 10px 15px;
-            background-color: #28a745;
+
+        input[type="submit"],
+        .btn {
+            background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 5px;
+            padding: 10px 15px;
+            border-radius: 4px;
             cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            margin-top: 10px;
         }
-        button:hover {
-            background-color: #218838;
+
+        input[type="submit"]:hover,
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .alert {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
         }
     </style>
 </head>
 <body>
-<h1>Edit Employee</h1>
-<form th:action="@{/employees/update}" th:object="${employee}" method="post">
-    <div class="form-group">
-        <label for="id">Employee No</label>
-        <input type="text" id="id" th:field="*{id}" readonly />
+<div class="container">
+    <h1>Add Employee</h1>
+
+    <!-- Başarılı veya hatalı işlem mesajlarını göster -->
+    <div th:if="${message}" class="alert alert-success">
+        <p th:text="${message}"></p>
     </div>
-    <div class="form-group">
-        <label for="ename">Name</label>
-        <input type="text" id="ename" th:field="*{ename}" required />
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
     </div>
-    <div class="form-group">
-        <label for="job">Job</label>
-        <input type="text" id="job" th:field="*{job}" required />
-    </div>
-    <div class="form-group">
-        <label for="mgr">Manager</label>
-        <input type="number" id="mgr" th:field="*{mgr}" />
-    </div>
-    <div class="form-group" >
-        <label th:for="hireDate">Hire Date:</label>
-        <input type="text" th:field="*{hireDate}" placeholder="DD MMM YYYY" required />
-    </div>
-    <div class="form-group">
-        <label for="sal">Salary</label>
-        <input type="number" id="sal" th:field="*{sal}" required />
-    </div>
-    <div class="form-group">
-        <label for="comm">Commission</label>
-        <input type="number" id="comm" th:field="*{comm}" />
-    </div>
-    <div class="form-group">
-        <label for="department">Department</label>
-        <select id="department" th:field="*{department.id}" required>
-            <option th:each="dept : ${departments}"
-                    th:value="${dept.id}"
-                    th:text="${dept.dName}"
-                    th:selected="${dept.id == employee.department.id}"></option>
-        </select>
-    </div>
-    <button type="submit">Update Employee</button>
-</form>
-<a href="/home">Back to Home</a>
+
+    <form enctype="multipart/form-data" method="post" th:action="@{/employees/edit-employee/{id}(id=${employee.id})}"
+          th:object="${employee}">
+
+        <div class="form-group">
+            <label th:for="id">ID:</label>
+            <input type="text" th:field="*{id}" />
+        </div>
+
+        <div class="form-group">
+            <label th:for="ename">Name:</label>
+            <input type="text" id="ename" th:field="*{ename}"/>
+        </div>
+
+        <div class="form-group">
+            <label th:for="job">Job:</label>
+            <input type="text" id="job" th:field="*{job}"/>
+        </div>
+
+        <div class="form-group">
+            <label th:for="mgr">Manager:</label>
+            <input type="text" id="mgr" th:field="*{mgr}">
+        </div>
+
+        <div class="form-group" >
+            <label th:for="hireDate">Hire Date:</label>
+            <input type="text" th:field="*{hireDate}" placeholder="DD MMM YYYY"   />
+        </div>
+
+        <div class="form-group">
+            <label th:for="sal">Salary:</label>
+            <input type="number" id="sal" th:field="*{sal}"/>
+        </div>
+
+        <div class="form-group">
+            <label th:for="comm">Commission:</label>
+            <input type="number" id="comm" th:field="*{comm}" />
+        </div>
+
+        <div class="form-group">
+            <label th:for="department">Department:</label>
+            <select id="department" th:field="*{department.id}">
+                <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.dName}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label th:for="photo">Photo:</label>
+            <input type="file" id="photo" name="photo"/>
+        </div>
+
+        <input type="submit" value="Add Employee" class="btn btn-primary"/>
+    </form>
+
+    <a th:href="@{/home}" class="btn btn-secondary">Back to Home</a>
+</div>
+
+<script>
+    document.querySelector('form').onsubmit = function(event) {
+        const hireDateInput = document.querySelector('input[name="hireDate"]');
+        const hireDateValue = hireDateInput.value;
+        const datePattern = /^\d{2} [A-Za-z]{3} \d{4}$/; // Matches "04 MAY 2023" or "04 May 2023"
+
+        if (!datePattern.test(hireDateValue)) {
+            alert("Please enter the date in the format: DD MMM YYYY (e.g., 04 MAY 2023 or 04 May 2023)");
+            event.preventDefault(); // Prevent form submission
+        }
+    };
+</script>
+s
+
+
 </body>
 </html>

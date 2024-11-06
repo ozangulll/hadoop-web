@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/home")
+
 public class HomeController {
 
     @Autowired
@@ -22,7 +22,7 @@ public class HomeController {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    @GetMapping
+    @GetMapping("/")
     public String home(Model model) {
         List<Employee> employees = employeeRepository.findAll();
         List<Department> departments = departmentRepository.findAll();
@@ -30,4 +30,13 @@ public class HomeController {
         model.addAttribute("departments", departments);
         return "home"; // home.html
     }
+    @GetMapping("/home")
+    public String homeT(Model model) {
+        List<Employee> employees = employeeRepository.findAll();
+        List<Department> departments = departmentRepository.findAll();
+        model.addAttribute("employees", employees);
+        model.addAttribute("departments", departments);
+        return "home"; // home.html
+    }
+
 }

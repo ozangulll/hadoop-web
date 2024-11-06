@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Department</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h2 class="my-4">Add New Department</h2>
+
+    <form th:action="@{/departments/add-department}" th:object="${department}" method="post">
+        <div class="form-group">
+            <label for="id">Department ID:</label>
+            <input type="number" class="form-control" id="id" th:field="*{id}" placeholder="Enter department ID (optional)">
+        </div>
+
+        <div class="form-group">
+            <label for="dName">Department Name:</label>
+            <input type="text" class="form-control" id="dName" th:field="*{dName}" placeholder="Enter department name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="loc">Location:</label>
+            <input type="text" class="form-control" id="loc" th:field="*{loc}" placeholder="Enter department location" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <a class="btn btn-secondary mt-3" href="/home" role="button">Back to Departments List</a>
+</div>
+
+</body>
+</html>

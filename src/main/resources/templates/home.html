@@ -70,6 +70,12 @@
     </tr>
     </tbody>
 </table>
+<div class="button-container">
+    <a th:href="@{/departments/add-department}" class="button">Add Department</a>
+</div>
+<div th:if="${errorMessage}" style="color: red;">
+    <p th:text="${errorMessage}"></p>
+</div>
 
 <h1>Employees</h1>
 <div class="message" th:if="${message}" th:text="${message}"></div>
@@ -82,7 +88,9 @@
         <th>Manager</th>
         <th>Hire Date</th>
         <th>Salary</th>
+        <th>Comm</th>
         <th>Department</th>
+        <th>Images</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -94,10 +102,11 @@
         <td th:text="${employee.mgr}"></td>
         <td th:text="${#dates.format(employee.hireDate, 'dd-MM-yyyy')}"></td>
         <td th:text="${employee.sal}"></td>
+        <td th:text="${employee.comm}"></td>
         <td th:text="${employee.department.dName}"></td>
-        <td><img style="width: 1.5cm" th:src="@{'http://localhost:9870/webhdfs/v1/user/bekir/images/' + ${employee.imagePath} +'?op=OPEN'}" /></td>
+        <td><img style="width: 1.5cm" th:src="@{'http://localhost:9870/webhdfs/v1/user/ozangul/images/' + ${employee.imagePath} +'?op=OPEN'}" /></td>
         <td>
-            <a th:href="@{/employees/edit/{id}(id=${employee.id})}" class="button">Edit</a>
+            <a th:href="@{/employees/edit-employee/{id}(id=${employee.id})}" class="button">Edit</a>
             <a th:href="@{/employees/delete/{id}(id=${employee.id})}" class="button button-danger">Delete</a>
         </td>
     </tr>

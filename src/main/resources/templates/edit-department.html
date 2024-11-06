@@ -69,11 +69,8 @@
 </head>
 <body>
 <h2>Edit Department</h2>
-<form th:action="@{/departments/update-department}" th:object="${department}" method="post">
-    <div>
-        <label th:for="id">Department ID:</label>
-        <input type="text" th:field="*{id}" required />
-    </div>
+<form  th:action="@{/departments/edit-department/{id}(id=${department.id})}" th:object="${department}" method="post">
+    <input type="hidden" th:field="*{id}" />
     <div>
         <label th:for="dName">Department Name:</label>
         <input type="text" th:field="*{dName}" required />
