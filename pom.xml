@@ -15,8 +15,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>hadoop-web</name>
     <description>hadoop-web</description>
-
     <properties>
+        <jakarta-servlet.version>4.0.3</jakarta-servlet.version>
+        <jersey.version>2.36</jersey.version>
         <java.version>17</java.version>
     </properties>
 
@@ -80,11 +81,13 @@
         </dependency>
 
         <!-- Apache Spark Dependencies -->
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.12</artifactId>
             <version>3.5.3</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -97,6 +100,12 @@
             <artifactId>spark-sql_2.12</artifactId>
             <version>3.5.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.12.15</version>
+        </dependency>
+
 
         <!-- Hadoop Dependencies -->
         <dependency>
@@ -143,6 +152,12 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>2.36</version> <!-- Sürümü projenize uygun hale getirin -->
+        </dependency>
+
 
         <!-- Spring Boot DevTools (for development only) -->
         <dependency>
@@ -151,6 +166,20 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql-kafka-0-10 -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql-kafka-0-10_2.12</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.13.0</version>
+        </dependency>
+
 
         <!-- Testing Dependencies -->
         <dependency>

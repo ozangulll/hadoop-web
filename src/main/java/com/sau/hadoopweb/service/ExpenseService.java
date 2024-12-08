@@ -39,7 +39,6 @@ public class ExpenseService {
             float payment = rand.nextFloat() * 1000;
             payment = Math.round(payment * 100.0) / 100.0f;
 
-
             Expense existingExpense = expenseRepository.findByEmployee(employee);
             Expense expense;
 
