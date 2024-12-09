@@ -77,13 +77,14 @@ public class ExpenseService {
     }
 
     private String expenseToMessage(Expense expense) {
-        // Converts the Expense object to a simple message
-        return String.format("UserId: %d, DateTime: %s, Description: %s, Type: %s, Count: %d, Payment: %.2f",
-                expense.getEmployee().getId(),  // Access Employee's ID
-                expense.getDateTime(),
-                expense.getDescription(),
-                expense.getType(),
-                expense.getCount(),
-                expense.getPayment());
+        return String.format("%d,%s,%s,%s,%d,%.2f",
+                expense.getEmployee().getId(),  // userId
+                expense.getDateTime(),           // dateTime
+                expense.getDescription(),       // description
+                expense.getType(),              // typeExpense
+                expense.getCount(),             // count
+                expense.getPayment());          // payment
     }
+
+
 }
