@@ -21,10 +21,11 @@ public class Employee {
     @Column(nullable = true)
     private Integer mgr;
 
-    @DateTimeFormat(pattern = "dd MMM yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     @Column(nullable = true)
     private Date hireDate;
+
 
     private Long sal;
 

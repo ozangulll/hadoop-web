@@ -117,8 +117,8 @@
         </div>
 
         <div class="form-group" >
-            <label th:for="hireDate">Hire Date:</label>
-            <input type="text" th:field="*{hireDate}" placeholder="DD MMM YYYY" required />
+            <label for="hireDate">Hire Date:</label>
+            <input type="date" id="hireDate" th:field="*{hireDate}" /><br><br>
         </div>
 
         <div class="form-group">
@@ -148,20 +148,5 @@
 
     <a th:href="@{/home}" class="btn btn-secondary">Back to Home</a>
 </div>
-
-<script>
-    document.querySelector('form').onsubmit = function(event) {
-        const hireDateInput = document.querySelector('input[name="hireDate"]');
-        const hireDateValue = hireDateInput.value;
-        const datePattern = /^\d{2} [A-Z]{3} \d{4}$/; // Matches "04 MAY 2023"
-
-        if (!datePattern.test(hireDateValue)) {
-            alert("Please enter the date in the format: DD MMM YYYY (e.g., 04 MAY 2023)");
-            event.preventDefault(); // Prevent form submission
-        }
-    };
-</script>
-
-
 </body>
 </html>
