@@ -79,6 +79,26 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.29</version>
         </dependency>
+        <dependency>
+            <groupId>com.datastax.oss</groupId>
+            <artifactId>java-driver-core</artifactId>
+            <version>4.17.0</version> <!-- En son sürüm -->
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.typesafe</groupId>
+            <artifactId>config</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-cassandra -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-cassandra</artifactId>
+            <version>3.4.0</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- Apache Spark Dependencies -->
         <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
@@ -150,10 +170,13 @@
         </dependency>
 
         <!-- Spring Data Cassandra -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-cassandra -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-cassandra</artifactId>
+            <version>4.4.0</version>
         </dependency>
+
 
         <!-- Apache Commons CSV -->
         <dependency>
