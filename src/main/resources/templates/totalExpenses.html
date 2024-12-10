@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Total Expenses by User</title>
+</head>
+<body>
+<h1>Total Expenses by User</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>User ID</th>
+        <th>Total Expenses</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="expense : ${expenseSummaryList}">
+        <td th:text="${expense.userId}"></td>
+        <td th:text="${expense.totalExpenses}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
