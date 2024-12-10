@@ -91,11 +91,12 @@
         <th>Comm</th>
         <th>Department</th>
         <th>Images</th>
+        <th>Total Expenses</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="employee : ${employees}">
+    <tr th:each="employee : ${employeeExpenseDTOList}">
         <td th:text="${employee.id}"></td>
         <td th:text="${employee.ename}"></td>
         <td th:text="${employee.job}"></td>
@@ -103,8 +104,10 @@
         <td th:text="${#dates.format(employee.hireDate, 'dd-MM-yyyy')}"></td>
         <td th:text="${employee.sal}"></td>
         <td th:text="${employee.comm}"></td>
-        <td th:text="${employee.department.dName}"></td>
+        <td th:text="${employee.departmentName}"></td>
+
         <td><img style="width: 1.5cm" th:src="@{'http://localhost:9870/webhdfs/v1/user/ozangul/images/' + ${employee.imagePath} +'?op=OPEN'}" /></td>
+        <td th:text="${employee.totalExpense}"></td>
         <td>
             <a th:href="@{/employees/edit-employee/{id}(id=${employee.id})}" class="button">Edit</a>
             <a th:href="@{/employees/delete/{id}(id=${employee.id})}" class="button button-danger">Delete</a>
