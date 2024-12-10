@@ -4,6 +4,7 @@ import com.sau.hadoopweb.model.Employee;
 import com.sau.hadoopweb.model.Department;
 import com.sau.hadoopweb.repository.EmployeeRepository;
 import com.sau.hadoopweb.repository.DepartmentRepository;
+import com.sau.hadoopweb.repository.ExpenseRepository;
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -30,6 +31,8 @@ public class EmployeeController {
 
     @Autowired
     private DepartmentRepository departmentRepository;
+    @Autowired
+    private ExpenseRepository expenseRepository;
 
     // Yeni Employee ekleme formunu gösterme
     @GetMapping("/add-employee")
@@ -139,7 +142,12 @@ public class EmployeeController {
     // Employee silme işlemi
     @GetMapping("/delete/{id}")
     public String deleteEmployee(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        // Delete associated Expense entries for the Employee
+        expenseRepository.deleteByEmployeeId(Math.toIntExact(id));
+
+        // Delete the Employee record
         employeeRepository.deleteById(id);
+
         redirectAttributes.addFlashAttribute("message", "Employee deleted successfully");
         return "redirect:/home";
     }
